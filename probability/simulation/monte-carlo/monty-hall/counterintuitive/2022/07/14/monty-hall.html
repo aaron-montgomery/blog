@@ -208,14 +208,14 @@ This is where simulations can do some good.</p>
 
 <span class="n">monty_hall</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">stay</span><span class="p">){</span>
     
-  <span class="n">doors</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">,</span> <span class="s">&quot;B&quot;</span><span class="p">,</span> <span class="s">&quot;C&quot;</span><span class="p">)</span>                     <span class="c1"># using letters instead of numbers due to a quirk in sample()</span>
+  <span class="n">doors</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">,</span> <span class="s">&quot;B&quot;</span><span class="p">,</span> <span class="s">&quot;C&quot;</span><span class="p">)</span>              <span class="c1"># using ABC instead of 123 due to a quirk in sample()</span>
 
   <span class="n">prize_door</span> <span class="o">&lt;-</span> <span class="nf">sample</span><span class="p">(</span><span class="n">doors</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
   <span class="n">contestant_choice</span> <span class="o">&lt;-</span> <span class="nf">sample</span><span class="p">(</span><span class="n">doors</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
     
-  <span class="n">reveal_door</span> <span class="o">&lt;-</span> 
-    <span class="nf">union</span><span class="p">(</span><span class="n">prize_door</span><span class="p">,</span> <span class="n">contestant_choice</span><span class="p">)</span> <span class="o">%&gt;%</span>    <span class="c1"># Monty can&#39;t reveal the door with the prize or the selected door,</span>
-    <span class="nf">setdiff</span><span class="p">(</span><span class="n">doors</span><span class="p">,</span> <span class="n">.</span><span class="p">)</span> <span class="o">%&gt;%</span>                       <span class="c1"># so remove those bad choices from the vector 1:3</span>
+  <span class="n">reveal_door</span> <span class="o">&lt;-</span>                                <span class="c1"># Monty can&#39;t reveal the door with the prize,</span>
+    <span class="nf">union</span><span class="p">(</span><span class="n">prize_door</span><span class="p">,</span> <span class="n">contestant_choice</span><span class="p">)</span> <span class="o">%&gt;%</span>    <span class="c1"># nor can he reveal the selected door, so we&#39;ll</span>
+    <span class="nf">setdiff</span><span class="p">(</span><span class="n">doors</span><span class="p">,</span> <span class="n">.</span><span class="p">)</span> <span class="o">%&gt;%</span>                       <span class="c1"># remove those choices from the doors vector</span>
     <span class="nf">sample</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>  
 
   <span class="n">switch_offer</span> <span class="o">&lt;-</span> <span class="nf">setdiff</span><span class="p">(</span><span class="n">doors</span><span class="p">,</span> <span class="nf">c</span><span class="p">(</span><span class="n">contestant_choice</span><span class="p">,</span> <span class="n">reveal_door</span><span class="p">))</span>
