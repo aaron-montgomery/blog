@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Let’s Make a Deal! | fastpages</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Let’s Make a Deal!" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Monty Hall meets Monte Carlo" />
+<meta property="og:description" content="Monty Hall meets Monte Carlo" />
+<link rel="canonical" href="https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/monty-hall/counterintuitive/2022/07/14/monty-hall.html" />
+<meta property="og:url" content="https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/monty-hall/counterintuitive/2022/07/14/monty-hall.html" />
+<meta property="og:site_name" content="fastpages" />
+<meta property="og:image" content="https://aaron-montgomery.github.io/blog/images/three_doors.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-14T00:00:00-05:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://aaron-montgomery.github.io/blog/images/three_doors.jpg" />
+<meta property="twitter:title" content="Let’s Make a Deal!" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-07-14T00:00:00-05:00","datePublished":"2022-07-14T00:00:00-05:00","description":"Monty Hall meets Monte Carlo","headline":"Let’s Make a Deal!","image":"https://aaron-montgomery.github.io/blog/images/three_doors.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/monty-hall/counterintuitive/2022/07/14/monty-hall.html"},"url":"https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/monty-hall/counterintuitive/2022/07/14/monty-hall.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://aaron-montgomery.github.io/blog/feed.xml" title="fastpages" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">fastpages</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Let&#39;s Make a Deal!</h1><p class="page-description">Monty Hall meets Monte Carlo</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-14T00:00:00-05:00" itemprop="datePublished">
+        Jul 14, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#probability">probability</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#simulation">simulation</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#monte-carlo">monte-carlo</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#monty-hall">monty-hall</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#counterintuitive">counterintuitive</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/aaron-montgomery/blog/tree/master/_notebooks/2022-07-14-monty-hall.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/aaron-montgomery/blog/master?filepath=_notebooks%2F2022-07-14-monty-hall.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/aaron-montgomery/blog/blob/master/_notebooks/2022-07-14-monty-hall.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Faaron-montgomery%2Fblog%2Fblob%2Fmaster%2F_notebooks%2F2022-07-14-monty-hall.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/blog/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-07-14-monty-hall.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="The-Monty-Hall-Problem">The Monty Hall Problem<a class="anchor-link" href="#The-Monty-Hall-Problem"> </a></h1><p>The Monty Hall problem has probably achieved cultural saturation at this point, but we'll start with a quick refresher:</p>
+<p>You are playing a game show in which you are shown three numbered doors (1, 2, 3). One of the doors has a prize behind it; the other two do not. You choose a door -- let's say door 1, though it doesn't really matter -- after which the host (Monty Hall) opens door 3 to reveal that it does <em>not</em> have the prize. He then offers you the opportunity to switch from door 1, which you chose, to door 2, the only other remaining door. Should you take his offer to switch? (Does it even matter?)</p>
+<p>We should stipulate for the record that we mean the traditional collection of "Monty Hall" rules: that is, Monty will always open one door, he <em>does</em> know where the prize is, and he will never reveal a door that has the prize behind it. If you have chosen the prize correctly on the first guess, then he will flip a coin to decide which of the other doors to reveal.</p>
+<h2 id="The-Incorrect-Answer">The Incorrect Answer<a class="anchor-link" href="#The-Incorrect-Answer"> </a></h2><p>I was first exposed to this problem in college when a friend posed the question to me as a brain teaser to at a cafeteria table. I gave the only sensible answer, which was to say that since you had two doors, <strong>getting the prize was a 50/50 proposition no matter what you chose</strong>. I was, of course, dead wrong.</p>
+<p>For years, I was slightly embarrassed about this. Not <em>too</em> embarrassed, mind you -- after all, I'm wrong all the time. But this one stung because my friend was on my home turf; at this point in my life, I was pretty sure I was going to try to pursue a PhD in Mathematics and I suspected I might gravitate to the field of Probability Theory. Just like that, I whiffed on a probability question in a semi-public forum.</p>
+<p>My shame was lessened over the years when I learned that if nothing else, I wasn't alone. When Marilyn Vos Savant gave a correct solution to the problem in a 1990 issue of <em>Parade</em>, she received <a href="https://web.archive.org/web/20130121183432/http://marilynvossavant.com/game-show-problem/">a truckload of letters</a>, many from professional mathematicians, telling her how wrong she was. (She wasn't wrong, which certainly didn't help the outrageous rudeness of some of those letters.) In his book <a href="https://www.maa.org/press/maa-reviews/which-door-has-the-cadillac-adventures-of-a-real-life-mathematician">Which Door Has the Cadillac: Adventures of a Real Life Mathematician</a>, Andrew Vazsonyi recalls giving the same incorrect "obvious" answer to the problem on his first encounter; perhaps more shockingly, he details an account of discussing the problem with Paul Erdös, who also got the problem wrong and became increasingly irate about it until he was eventually shown a simulation proving what the right answer should be.</p>
+<h2 id="The-Correct-Answer">The Correct Answer<a class="anchor-link" href="#The-Correct-Answer"> </a></h2><p>That right answer is that <strong>switching is better</strong>. Indeed, staying with your original choice will grant you a $1/3$ chance of winning, and switching will grant a $2/3$ chance of winning. The key detail, of course, is Monty's knowledge of the problem and choice of exactly <em>how</em> to reveal what he knows. There are many ways to see why this is true; the <a href="https://en.wikipedia.org/wiki/Monty_Hall_problem">Wikipedia entry</a> for the Monty Hall problem gives many different explanations of many different flavors (and even criticisms of those same explanations). These explanations are great, but to those who aren't accustomed to long mathematical arguments, they might be less than convincing.</p>
+<p>The first explanation of the solution in the Wikipedia article states:</p>
+<blockquote><p>When the player first makes their choice, there is a $2/3$ chance that the car is behind one of the doors not chosen. This probability does not change after the host reveals a goat behind one of the unchosen doors.</p>
+</blockquote>
+<p>This explanation never quite sat right with me. As Sasha Volokh <a href="https://www.washingtonpost.com/news/volokh-conspiracy/wp/2015/03/02/an-easy-answer-to-the-infamous-monty-hall-problem/">put it</a>: &gt; First, it’s clear that any explanation that says something like “the probability of door 1 was 1/3, and nothing can change that...” is automatically fishy:probabilities are expressions of our ignorance about the world, and new information can change the extent of our ignorance.
+This is where simulations can do some good.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Simulations">Simulations<a class="anchor-link" href="#Simulations"> </a></h2><p>We'll write Monte Carlo simulations in R to see that by sticking with our original answer, the probability of winning is indeed $1/3$. We will write a function that simulates one full round of the game; then, we'll <code>replicate()</code> the function many times to determine the probability of winning. Our strategy will be to simulate a round of the full game many times and keep track of how often the game results in a win.</p>
+<p>For our first attempt, we'll recreate a very general version of the game:</p>
+<ul>
+<li>the prize can be found behind any of 3 doors</li>
+<li>the contestant will pick any of 3 doors</li>
+<li>Monty will reveal one door and offer a chance to switch</li>
+<li>the contestant will choose to switch or stay depending on the parameter <code>stay</code></li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">10</span><span class="p">,</span> <span class="n">repr.plot.height</span><span class="o">=</span><span class="m">6</span><span class="p">)</span>
+
+<span class="n">monty_hall</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">stay</span><span class="p">){</span>
+    
+  <span class="n">doors</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">,</span> <span class="s">&quot;B&quot;</span><span class="p">,</span> <span class="s">&quot;C&quot;</span><span class="p">)</span>                     <span class="c1"># using letters instead of numbers due to a quirk in sample()</span>
+
+  <span class="n">prize_door</span> <span class="o">&lt;-</span> <span class="nf">sample</span><span class="p">(</span><span class="n">doors</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+  <span class="n">contestant_choice</span> <span class="o">&lt;-</span> <span class="nf">sample</span><span class="p">(</span><span class="n">doors</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+    
+  <span class="n">reveal_door</span> <span class="o">&lt;-</span> 
+    <span class="nf">union</span><span class="p">(</span><span class="n">prize_door</span><span class="p">,</span> <span class="n">contestant_choice</span><span class="p">)</span> <span class="o">%&gt;%</span>    <span class="c1"># Monty can&#39;t reveal the door with the prize or the selected door,</span>
+    <span class="nf">setdiff</span><span class="p">(</span><span class="n">doors</span><span class="p">,</span> <span class="n">.</span><span class="p">)</span> <span class="o">%&gt;%</span>                       <span class="c1"># so remove those bad choices from the vector 1:3</span>
+    <span class="nf">sample</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>  
+
+  <span class="n">switch_offer</span> <span class="o">&lt;-</span> <span class="nf">setdiff</span><span class="p">(</span><span class="n">doors</span><span class="p">,</span> <span class="nf">c</span><span class="p">(</span><span class="n">contestant_choice</span><span class="p">,</span> <span class="n">reveal_door</span><span class="p">))</span>
+    
+  <span class="nf">ifelse</span><span class="p">(</span><span class="n">prize_door</span> <span class="o">==</span> <span class="nf">ifelse</span><span class="p">(</span><span class="n">stay</span><span class="p">,</span> <span class="n">contestant_choice</span><span class="p">,</span> <span class="n">switch_offer</span><span class="p">),</span> <span class="s">&quot;win&quot;</span><span class="p">,</span> <span class="s">&quot;lose&quot;</span><span class="p">)</span>
+    <span class="c1"># the function returns the strings &quot;win&quot; and &quot;lose&quot;</span>
+    <span class="c1"># when stay is TRUE, check to see if the prize door matches the contestant&#39;s choice</span>
+    <span class="c1"># when stay is FALSE, check to see if the prize door matches the door offered in a switch</span>
+<span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Next, we'll generate 10K trials of the game under each of the two options (switching and staying). We'll reshape the outcomes just a bit and then plot them.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">monty_stay_trials</span> <span class="o">&lt;-</span> <span class="nf">replicate</span><span class="p">(</span><span class="m">10000</span><span class="p">,</span> <span class="nf">monty_hall</span><span class="p">(</span><span class="n">stay</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">))</span>
+<span class="n">monty_switch_trials</span> <span class="o">&lt;-</span> <span class="nf">replicate</span><span class="p">(</span><span class="m">10000</span><span class="p">,</span> <span class="nf">monty_hall</span><span class="p">(</span><span class="n">stay</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">data.frame</span><span class="p">(</span><span class="n">stay</span> <span class="o">=</span> <span class="n">monty_stay_trials</span><span class="p">,</span> <span class="n">switch</span> <span class="o">=</span> <span class="n">monty_switch_trials</span><span class="p">)</span> <span class="o">%&gt;%</span>
+  <span class="nf">pivot_longer</span><span class="p">(</span><span class="nf">everything</span><span class="p">(),</span> <span class="n">names_to</span> <span class="o">=</span> <span class="s">&quot;choice&quot;</span><span class="p">,</span> <span class="n">values_to</span> <span class="o">=</span> <span class="s">&quot;outcome&quot;</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+  <span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">outcome</span><span class="p">))</span> <span class="o">+</span>
+    <span class="nf">geom_bar</span><span class="p">(</span><span class="n">stat</span> <span class="o">=</span> <span class="s">&quot;count&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">facet_wrap</span><span class="p">(</span><span class="o">~</span><span class="n">choice</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">labs</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">&quot;Monty Hall Monte Carlo simulation results&quot;</span><span class="p">,</span>
+         <span class="n">subtitle</span> <span class="o">=</span> <span class="s">&quot;10,000 trials per contestent choice possibility&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">theme</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">20</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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" width="600" height="360" />
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The simulations show us exactly what we expected; switching is good, staying is bad. We can also easily confirm that the probability of winning by switching is $2/3$:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">mean</span><span class="p">(</span><span class="n">monty_switch_trials</span> <span class="o">==</span> <span class="s">&quot;win&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+0.6747
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Our answer is close to $2/3$, and the difference between it and $2/3$ is a small statistical fluctuation, as expected.</p>
+<p>So, good news: we have confirmed that the correct answer is indeed correct. But can we render any deeper insights from this? Let's focus on the function in the case when <code>stay == TRUE</code>. In that case, the code looks like this:</p>
+
+<pre><code>monty_hall &lt;- function(stay){
+
+  doors &lt;- c("A", "B", "C")      
+
+  prize_door &lt;- sample(doors, 1)
+  contestant_choice &lt;- sample(doors, 1)
+
+  reveal_door &lt;- 
+    union(prize_door, contestant_choice) %&gt;%    
+    setdiff(doors, .) %&gt;%                       
+    sample(1)  
+
+  switch_offer &lt;- setdiff(doors, c(contestant_choice, reveal_door))
+
+  ifelse(prize_door == contestant_choice, "win", "lose")
+}</code></pre>
+<p>Here, <code>switch_offer</code> doesn't actually get used at all in the line that returns the function. This means that the <code>switch_offer &lt;- ...</code> line, and the <code>reveal_door &lt;- ...</code> lines, are unused appendages. If we remove them, we're left with this:</p>
+
+<pre><code>monty_hall &lt;- function(stay){
+
+  doors &lt;- c("A", "B", "C")      
+
+  prize_door &lt;- sample(doors, 1)
+  contestant_choice &lt;- sample(doors, 1)
+
+  ifelse(prize_door == contestant_choice, "win", "lose")
+}</code></pre>
+<p>Now, we see that our code has reduced to a simulation that draws two objects independently from a collection of three and checks to see if they're the same. That probability is clearly $1/3$, and this explanation now aligns perfectly with the Wikipedia explanation that nothing has changed the original probability of $1/3$, whether that explanation is "fishy" or not.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Takeaway">Takeaway<a class="anchor-link" href="#Takeaway"> </a></h2><p>It's great to be able to use Monte Carlo simulations to confirm a correct answer, but in this case the act of writing a simulation can do something more profound: it can make the <em>why</em> behind the answer just a bit more convincing. Or, at least, it did that for me. I've seen (and believed, and produced) many analytical arguments for why switching has a $2/3$ probability, but I never fully believed the Wikipedia explanation until writing code to simulate the game.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="aaron-montgomery/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/probability/simulation/monte-carlo/monty-hall/counterintuitive/2022/07/14/monty-hall.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" target="_blank" title="fastai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" target="_blank" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
