@@ -13,14 +13,14 @@
 <link rel="canonical" href="https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/eulers-number/counterintuitive/2022/07/27/ordered-objects.html" />
 <meta property="og:url" content="https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/eulers-number/counterintuitive/2022/07/27/ordered-objects.html" />
 <meta property="og:site_name" content="AMM" />
-<meta property="og:image" content="https://aaron-montgomery.github.io/blog/images/pool_balls.jpg" />
+<meta property="og:image" content="https://aaron-montgomery.github.io/blog/images/letters.jpg" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-07-27T00:00:00-05:00" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta property="twitter:image" content="https://aaron-montgomery.github.io/blog/images/pool_balls.jpg" />
+<meta property="twitter:image" content="https://aaron-montgomery.github.io/blog/images/letters.jpg" />
 <meta property="twitter:title" content="Hey, Who Invited You?" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-07-27T00:00:00-05:00","datePublished":"2022-07-27T00:00:00-05:00","description":"A coding problem brings an uninvited famous mathematical guest","headline":"Hey, Who Invited You?","image":"https://aaron-montgomery.github.io/blog/images/pool_balls.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/eulers-number/counterintuitive/2022/07/27/ordered-objects.html"},"url":"https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/eulers-number/counterintuitive/2022/07/27/ordered-objects.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-07-27T00:00:00-05:00","datePublished":"2022-07-27T00:00:00-05:00","description":"A coding problem brings an uninvited famous mathematical guest","headline":"Hey, Who Invited You?","image":"https://aaron-montgomery.github.io/blog/images/letters.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/eulers-number/counterintuitive/2022/07/27/ordered-objects.html"},"url":"https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/eulers-number/counterintuitive/2022/07/27/ordered-objects.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://aaron-montgomery.github.io/blog/feed.xml" title="AMM" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -170,7 +170,7 @@ window.onload = wrap_img;
 until the first time you get one that is out of order. What is the expected 
 number of draws for this to occur? (Example:if you draw B-E-R-D, you would stopat D, because it was the first letter you drew that didn't occur after the 
 previous letter in the alphabet. This would count as 4 draws.)<br />
-<strong>Technical note</strong>:It is OK to ignore the case where you draw all the lettersin perfect order, because this is rare enough that it will probably not occur 
+Technical note:It is OK to ignore the case where you draw all the lettersin perfect order, because this is rare enough that it will probably not occur 
 even in trillions of simulations.</p>
 </blockquote>
 <p>At the point in the class when I assign this problem, this is intended to be a medium-difficulty coding problem. Students have to put together many of the skills we have gathered by that point, including:</p>
@@ -207,8 +207,30 @@ even in trillions of simulations.</p>
 <span class="p">}</span>
 <span class="c1"># note: if we draw all letters in order, this function will return 27</span>
 <span class="c1"># this won&#39;t happen, even in a simulation, before the heat death of the universe</span>
+</pre></div>
 
-<span class="nf">mean</span><span class="p">(</span><span class="nf">replicate</span><span class="p">(</span><span class="m">10000</span><span class="p">,</span> <span class="nf">letters_until_unordered</span><span class="p">()))</span>
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>That function allows us to compute a Monte Carlo estimate of the expected value from the original question:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">mean</span><span class="p">(</span><span class="nf">replicate</span><span class="p">(</span><span class="m">10000</span><span class="p">,</span> <span class="nf">letters_until_unordered</span><span class="p">()))</span>
 </pre></div>
 
     </div>
@@ -222,7 +244,7 @@ even in trillions of simulations.</p>
 
 
 <div class="output_html rendered_html output_subarea ">
-2.712
+2.7305
 </div>
 
 </div>
