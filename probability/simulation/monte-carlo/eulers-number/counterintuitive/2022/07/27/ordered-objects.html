@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Hey, Who Invited You? | AMM</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Hey, Who Invited You?" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A coding problem brings an uninvited famous mathematical guest" />
+<meta property="og:description" content="A coding problem brings an uninvited famous mathematical guest" />
+<link rel="canonical" href="https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/eulers-number/counterintuitive/2022/07/27/ordered-objects.html" />
+<meta property="og:url" content="https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/eulers-number/counterintuitive/2022/07/27/ordered-objects.html" />
+<meta property="og:site_name" content="AMM" />
+<meta property="og:image" content="https://aaron-montgomery.github.io/blog/images/pool_balls.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-07-27T00:00:00-05:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://aaron-montgomery.github.io/blog/images/pool_balls.jpg" />
+<meta property="twitter:title" content="Hey, Who Invited You?" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-07-27T00:00:00-05:00","datePublished":"2022-07-27T00:00:00-05:00","description":"A coding problem brings an uninvited famous mathematical guest","headline":"Hey, Who Invited You?","image":"https://aaron-montgomery.github.io/blog/images/pool_balls.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/eulers-number/counterintuitive/2022/07/27/ordered-objects.html"},"url":"https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/eulers-number/counterintuitive/2022/07/27/ordered-objects.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://aaron-montgomery.github.io/blog/feed.xml" title="AMM" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">AMM</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Hey, Who Invited You?</h1><p class="page-description">A coding problem brings an uninvited famous mathematical guest</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-07-27T00:00:00-05:00" itemprop="datePublished">
+        Jul 27, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      10 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#probability">probability</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#simulation">simulation</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#monte-carlo">monte-carlo</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#eulers-number">eulers-number</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#counterintuitive">counterintuitive</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/aaron-montgomery/blog/tree/master/_notebooks/2022-07-27-ordered-objects.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/aaron-montgomery/blog/master?filepath=_notebooks%2F2022-07-27-ordered-objects.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/aaron-montgomery/blog/blob/master/_notebooks/2022-07-27-ordered-objects.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Faaron-montgomery%2Fblog%2Fblob%2Fmaster%2F_notebooks%2F2022-07-27-ordered-objects.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/blog/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-07-27-ordered-objects.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Coding-as-a-Mathematical-Laboratory">Coding as a Mathematical Laboratory<a class="anchor-link" href="#Coding-as-a-Mathematical-Laboratory"> </a></h1><p>I've always been a little bit jealous of lab-based sciences like chemistry and physics. To me, there's something romantic about being able to conduct true <em>experiments</em> in a physical space. Since mathematicians tend to ply our trade in proofs, our "experiments" might be incomplete theorems on a blackboard or half-formed diagrams scrawled on the back of a napkin. We don't quite have a natural way to "mix some threes with some sevens and add a dash of elevens" in a way that a chemist might do with hydrogen, sulfer, and oxygen. (NB: Chemists should probably not do that.)</p>
+<p>Introducing Monte Carlo simulation into my classrooms has been the first thing that has felt to me like a mathematical laboratory. To illustrate what I mean, I'll tell a story from a recent class: I assigned the following exercise, which was to be completed with Monte Carlo simulations in R.</p>
+<blockquote><p>Suppose you repeatedly draw upper-case letters from a jar without replacement 
+until the first time you get one that is out of order. What is the expected 
+number of draws for this to occur? (Example:if you draw B-E-R-D, you would stopat D, because it was the first letter you drew that didn't occur after the 
+previous letter in the alphabet. This would count as 4 draws.)<br />
+<strong>Technical note</strong>:It is OK to ignore the case where you draw all the lettersin perfect order, because this is rare enough that it will probably not occur 
+even in trillions of simulations.</p>
+</blockquote>
+<p>At the point in the class when I assign this problem, this is intended to be a medium-difficulty coding problem. Students have to put together many of the skills we have gathered by that point, including:</p>
+<ul>
+<li>Monte Carlo simulation</li>
+<li>indexing of vectors</li>
+<li>loops</li>
+</ul>
+<p>This exercise has my favorite homework aesthetic, which is <strong>old skills, assembled together in a new way.</strong> But although I've long thought it was a pretty good exercise, it wasn't particularly noteworthy or interesting. At least, I didn't think it was.</p>
+<p>My solution to the problem looked something like this:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">letters_until_unordered</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(){</span>
+  <span class="n">mydraws</span> <span class="o">&lt;-</span> <span class="nf">sample</span><span class="p">(</span><span class="kc">LETTERS</span><span class="p">)</span>   <span class="c1"># draw full sample of all 26 letters</span>
+  <span class="n">check</span> <span class="o">&lt;-</span> <span class="m">2</span>                   
+    <span class="c1"># the check variable keeps track of how many we have to draw</span>
+    <span class="c1"># before seeing one that is out of order; this is what the</span>
+    <span class="c1"># function will return</span>
+    
+  <span class="nf">while</span><span class="p">(</span><span class="nf">identical</span><span class="p">(</span><span class="n">mydraws</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="n">check</span><span class="p">],</span> <span class="nf">sort</span><span class="p">(</span><span class="n">mydraws</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="n">check</span><span class="p">]))</span> <span class="o">&amp;</span> <span class="n">check</span> <span class="o">&lt;=</span> <span class="m">26</span><span class="p">){</span>
+    <span class="n">check</span> <span class="o">&lt;-</span> <span class="n">check</span> <span class="o">+</span> <span class="m">1</span>
+  <span class="p">}</span> <span class="c1"># loop should continue until vector isn&#39;t same as sorted self</span>
+    
+  <span class="n">check</span>
+<span class="p">}</span>
+<span class="c1"># note: if we draw all letters in order, this function will return 27</span>
+<span class="c1"># this won&#39;t happen, even in a simulation, before the heat death of the universe</span>
+
+<span class="nf">mean</span><span class="p">(</span><span class="nf">replicate</span><span class="p">(</span><span class="m">10000</span><span class="p">,</span> <span class="nf">letters_until_unordered</span><span class="p">()))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+2.712
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In one of the early semesters I taught the class, a student correctly solved the question and brought me his code with an interesting question: <strong>is the true answer supposed to be Euler's number?</strong> That is, should we expect this Monte Carlo answers to be hover around $e \approx 2.718282...$?</p>
+<h2 id="The-Incorrect-Answer">The Incorrect Answer<a class="anchor-link" href="#The-Incorrect-Answer"> </a></h2><p>My immediate answer was: <strong>No, that must just be a coincidence.</strong></p>
+<h2 id="The-Correct-Answer">The Correct Answer<a class="anchor-link" href="#The-Correct-Answer"> </a></h2><p>I was wrong. <strong>The true answer was actually $e$.</strong> Well, almost.</p>
+<p>(Quick disclaimer: this result is perfectly well-known to humanity; it just wasn't well-known to <em>me</em> at the time.)</p>
+<p>When the student asked me this question, I replicated my answer a few more times to see if I still thought the resemblence to the magic number $2.718282...$ was accidental.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">mean</span><span class="p">(</span><span class="nf">replicate</span><span class="p">(</span><span class="m">10000</span><span class="p">,</span> <span class="nf">letters_until_unordered</span><span class="p">()))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+2.7268
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Hmmm...</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">mean</span><span class="p">(</span><span class="nf">replicate</span><span class="p">(</span><span class="m">10000</span><span class="p">,</span> <span class="nf">letters_until_unordered</span><span class="p">()))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+2.7183
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><em>Very</em> suspicious. Let's try using more replications for finer accuracy:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">mean</span><span class="p">(</span><span class="nf">replicate</span><span class="p">(</span><span class="m">1e5</span><span class="p">,</span> <span class="nf">letters_until_unordered</span><span class="p">()))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+2.71941
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>HMMMM.....</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">mean</span><span class="p">(</span><span class="nf">replicate</span><span class="p">(</span><span class="m">1e6</span><span class="p">,</span> <span class="nf">letters_until_unordered</span><span class="p">()))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+2.717819
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>That was hard to ignore, and it practically reeked of Euler's number. This caught me completely off guard; I had written the problem without any idea that $e$ belonged here at all, and yet... here it was. On the one hand, I shouldn't have been surprised at all. This is just a Thing That Happens with certain famous mathematical constants like $e$ and $\pi$; they frequently show up where they frankly have no business being.</p>
+<p>I did find myself surprised, though -- mostly, by the fact that I had encountered an experiment-driven result, which I am not at all accustomed to. I don't think I would ever have considered this result were it not for this esoteric homework problem I conjured up (and the help of the keen-eyed student). Monte Carlo simulations gave me something that I imagine must feel a little bit like when a physicist can't explain a bump on a curve, or when a biologist sees a bacterial growth rate that has no known explanation. The next step for that physicist, or that biologist, and for me, was to ask <em>why</em>.</p>
+<p>In this way, I was behaving in the most analogous way possible to an experimental scientist. Such a scientist might discover a fascinating new result in a lab; new results yearn for new <em>theories</em>, and it is those <em>theories</em> that are powerful. Theories are what convey existing and lasting knowledge to humanity. The experiments themselves matter only insofar as they suggest or reveal deeper truths; but the experiments themselves are but partial reflections of those truths. This homework problem doesn't matter; what makes it tick matters.</p>
+<p>This also helped crystallize to me an important lesson about the pedagogy of mathematical education. One of my most important missions in my own classrooms has been to transfer as much agency to students as possible. I tend to gravitate strongly toward <a href="https://www.ams.org/publications/journals/notices/201702/rnoti-p124.pdf">active learning</a> strategies. My teaching philosophy is fairly simple: anything <em>students</em> do is good, and anything <em>I</em> do is inherently less good. Here, too, I've long been jealous of lab sciences; they have a built-in pedagogy to invite students to meaningfully engage, right from the very beginning of study. Teaching a course on Monte Carlo simulations has been the first thing I've done that has just a little bit like a lab.</p>
+<p>And yet, the simulations have also underscored for me the importance of understanding "traditional" mathematics; we can discover wildly interesting results through Monte Carlo simulations, but only mathematical reasoning can deliver the all-important <em>why</em>. Simulations ought <em>augment</em> a traditional probability and statistics curriculum, but I don't think they should <em>replace</em> it.</p>
+<h2 id="Takeaway">Takeaway<a class="anchor-link" href="#Takeaway"> </a></h2><p>Monte Carlo simulations have given me a new way to invite students who can write just a bit of code to <em>experiment</em> and to <em>play</em> in a mathematical space. Inviting students into this style of mathematical "laboratory" has been incredibly rewarding, and it has allowed me to engage students much more fully than I'm typically able to do in introductory probability / statistics classes. It has allowed me to transfer some of the ownership of the subject material to students, which seems to me an unqualified good thing.</p>
+<p>However, Monte Carlo simulations are inherently limited in scope. They can give us incredibly interesting results, and they can do so in a much more accessible way than can classical mathematics and statistics. But by themselves, they can never give us that elusive <em>why</em>.</p>
+<hr />
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Wait,-what-about-the-&quot;Why&quot;-part?">Wait, what about the "Why" part?<a class="anchor-link" href="#Wait,-what-about-the-&quot;Why&quot;-part?"> </a></h2><p>It would be pretty unsatisfying if after all that discussion, we didn't get around to the proof of the aforementioned result. Once again, to be clear, this result is perfectly well-known; I just hadn't personally encountered it before. Once the student brought this seeming coincidence to my attention, I immediately set out to try to prove it.</p>
+<p>To remind ourselves, here's the result:</p>
+<h3 id="Theorem">Theorem<a class="anchor-link" href="#Theorem"> </a></h3><p>Suppose you repeatedly draw upper-case letters from a jar without replacement until the first time you get one that is out of order. The expected number of draws executed in this fashion will be very slightly less than $e$.</p>
+<h3 id="Proof">Proof<a class="anchor-link" href="#Proof"> </a></h3><p>For $k \geq 1$, let $A_k$ denote the event that the first $k$ letters drawn are all in order. (That is: $A_1$ is trivial, $A_2$ holds only if the first two letters are drawn in order, and so forth.) If we let $N$ denote random variable of the number of letters drawn until finding one out of sequence, then we note that
+
+$$ N = 1 + \mathbb 1_{A_1} + \mathbb 1_{A_2} + \dots + \mathbb 1_{A_{26}}$$
+
+where $\mathbb 1_{B}$ denotes the indicator function of event $B$. This is both the most important and least obvious step in the proof; the logic of this step is that $N$ and each $\mathbb 1_{A_k}$ are random variables, meaning they're functions of some unseen input variable $\omega$. Here, choosing an $\omega$ determines a full ordering of the letters, and once this has been done, a certain number of events $\{A_1, \dots, A_n\}$ will be fulfilled, making their corresponding indicator variables evaluate to $1$ on that $\omega$. Summing these indicators will therefore count the events, as desired.</p>
+<p>The leading $1$ in the above expression is meant to count the one letter we'll draw that's <em>out</em> of order and therefore <em>not</em> counted by the indicator variables; technically, this isn't very well-defined for the case when we draw all 26 letters in order, but that's a very low-probability event that we were explicitly invited in the problem statement to ignore, so we'll just accept the fact that $N$ evaluates to $27$ in that case. (I originally added that detail in the problem statement to alleviate a coding nuisance, and it turned out to alleviate a corresponding mathematical nuisance here.)</p>
+<p>The decomposition above is useful, because it therefore follows that
+
+$$ \mathbb E[N] = 1 + \mathbb E \left[ \mathbb 1_{A_1} \right] + \mathbb E \left[ \mathbb 1_{A_2} \right] + \dots + \mathbb E \left[ \mathbb 1_{A_{26}} \right] = 1 + \sum_{k=1}^{26} \mathbb E \left[ \mathbb 1_{A_k} \right].$$
+
+I should stop and explicitly acknowledge that this really, really feels like we're cheating somehow. The $\{A_k\}$ events are definitely <em>not</em> independent; in fact, they're completely <em>dependent</em>, as $A_{k+1} \subset A_k$. (If the first twelve letters were perfectly ordered, then the first eleven were also.) However, independence is not required for linearity of expectation.</p>
+<p>From here, we recall that $\mathbb E \left[ \mathbb 1_B \right] = \mathbb P(B)$ for any event $B$, which means that we need only to compute $\mathbb P(A_k)$. When drawing $k$ objects, there are $k!$ rearrangements of those objects, of which only $1$ is properly ordered, from which it follows that $\mathbb P(A_k) = \frac 1 {k!}$. Hence,
+
+$$\mathbb E[N] = 1 + \sum_{k=1}^{26} \mathbb P \left( A_k \right) = 1 + \sum_{k=1}^{26} \frac{1}{k!} = \sum_{k=0}^{26} \frac{1}{k!}$$
+
+and we notice that this is simply the first few terms of the infinite series
+
+$$\sum_{k=0}^{\infty} \frac{1}{k!} = e.$$
+</p>
+<p>So, the true expected value in our original question isn't <em>quite</em> $e$ -- it's a number just below it. Specifically, it's $e - \sum_{k=27}^{\infty} \frac{1}{k!}$. To see how close this is to $e$, let's use R to sum the first few terms of the remainder series:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">sum</span><span class="p">(</span><span class="m">1</span> <span class="o">/</span> <span class="nf">factorial</span><span class="p">(</span><span class="m">27</span><span class="o">:</span><span class="m">1000</span><span class="p">))</span>  
+<span class="c1"># there are times that R&#39;s vectorization comes in really handy</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+9.52337830230636e-29
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Pretty close to $e$, indeed. And while the true answer isn't actually <em>quite</em> $e$, we were never going to be able to distinguish the true answer from $e$ with only a Monte Carlo simulation.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="aaron-montgomery/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/probability/simulation/monte-carlo/eulers-number/counterintuitive/2022/07/27/ordered-objects.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Aaron Montgomery&#39;s blog</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
