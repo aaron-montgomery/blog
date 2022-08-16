@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Penney’s Game, pt. 2 | AMM</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Penney’s Game, pt. 2" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The waiting (time) is the hardest part" />
+<meta property="og:description" content="The waiting (time) is the hardest part" />
+<link rel="canonical" href="https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/penneys-game/counterintuitive/2022/08/10/penneys-game-2.html" />
+<meta property="og:url" content="https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/penneys-game/counterintuitive/2022/08/10/penneys-game-2.html" />
+<meta property="og:site_name" content="AMM" />
+<meta property="og:image" content="https://aaron-montgomery.github.io/blog/images/stack_of_pennies.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-08-10T00:00:00-05:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://aaron-montgomery.github.io/blog/images/stack_of_pennies.jpg" />
+<meta property="twitter:title" content="Penney’s Game, pt. 2" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-08-10T00:00:00-05:00","datePublished":"2022-08-10T00:00:00-05:00","description":"The waiting (time) is the hardest part","headline":"Penney’s Game, pt. 2","image":"https://aaron-montgomery.github.io/blog/images/stack_of_pennies.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/penneys-game/counterintuitive/2022/08/10/penneys-game-2.html"},"url":"https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/penneys-game/counterintuitive/2022/08/10/penneys-game-2.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://aaron-montgomery.github.io/blog/feed.xml" title="AMM" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">AMM</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Penney&#39;s Game, pt. 2</h1><p class="page-description">The waiting (time) is the hardest part</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2022-08-10T00:00:00-05:00" itemprop="datePublished">
+        Aug 10, 2022
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      6 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#probability">probability</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#simulation">simulation</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#monte-carlo">monte-carlo</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#penneys-game">penneys-game</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#counterintuitive">counterintuitive</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/aaron-montgomery/blog/tree/master/_notebooks/2022-08-10-penneys-game-2.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/aaron-montgomery/blog/master?filepath=_notebooks%2F2022-08-10-penneys-game-2.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/aaron-montgomery/blog/blob/master/_notebooks/2022-08-10-penneys-game-2.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Faaron-montgomery%2Fblog%2Fblob%2Fmaster%2F_notebooks%2F2022-08-10-penneys-game-2.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/blog/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2022-08-10-penneys-game-2.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Reimagining-Penney's-Game">Reimagining Penney's Game<a class="anchor-link" href="#Reimagining-Penney's-Game"> </a></h1><p>We'll start with a modified version of <a href="https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/penneys-game/counterintuitive/2022/08/05/penneys-game-1.html">Penney's Game</a>. As before, you're playing a game involving a sequence of coin flips -- but this time, you're playing it <em>alone.</em> You have chosen a sequence of three coin flips (let's say, HTH), and you're waiting to see how long it will take to encounter your sequence.</p>
+<p>If your sequence of coins was</p>
+<p style="text-align: center;">THTT<font color="red">HTH</font></p><p>then it would have taken you 7 coin flips to find the sequence you wanted. Clearly, if you're lucky, you might encounter your sequence in the first three flips; on the other hand, if you're unlucky, it could take a hundred coin flips for you to see your sequence. The question is: <strong>does the choice of sequence affect how long it will take you to encounter it, on average?</strong></p>
+<h1 id="The-Incorrect-Answer">The Incorrect Answer<a class="anchor-link" href="#The-Incorrect-Answer"> </a></h1><p>Much like the first Penney's Game question, a little knowledge is a dangerous thing. In a fixed collection of 3 coin flips, each sequence of length three has a $\frac{1}{2^3} = \frac 1 8$ chance of occurring. When I first heard this question, it seemed like a pretty clear application of a <a href="https://en.wikipedia.org/wiki/Geometric_distribution">geometric random variable</a>, and since the expected wait time for a $\operatorname{Geometric(p)}$ random variable is $1/p$, it made sense to me that <strong>each sequence might have the same wait time</strong>.</p>
+<p>And yet...</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">stringr</span><span class="p">)</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">repr.plot.width</span><span class="o">=</span><span class="m">10</span><span class="p">,</span> <span class="n">repr.plot.height</span><span class="o">=</span><span class="m">6</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Output" data-close="Show Output"></summary>
+        <p>
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>
+Attaching package: &#39;dplyr&#39;
+
+
+The following objects are masked from &#39;package:stats&#39;:
+
+    filter, lag
+
+
+The following objects are masked from &#39;package:base&#39;:
+
+    intersect, setdiff, setequal, union
+
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+</p>
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-r"><pre><span></span><span class="n">penney_wait</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">p1</span><span class="p">){</span>
+    <span class="c1"># p1 is a string like &quot;HHT&quot;</span>
+  
+  <span class="n">coins</span> <span class="o">&lt;-</span> <span class="nf">nchar</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>                <span class="c1"># keep track of how many coins needed</span>
+  <span class="n">p1</span> <span class="o">&lt;-</span> <span class="nf">unlist</span><span class="p">(</span><span class="nf">str_split</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">))</span>   <span class="c1"># split string into vector w/ length == coins</span>
+    
+  <span class="n">flips</span> <span class="o">&lt;-</span> <span class="nf">sample</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span> <span class="s">&quot;T&quot;</span><span class="p">),</span> <span class="n">coins</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="bp">T</span><span class="p">)</span> 
+    <span class="c1"># initialize flips with first collection of coin flips</span>
+    
+  <span class="n">num_flips</span> <span class="o">&lt;-</span> <span class="n">coins</span>                <span class="c1"># keep track of how many flips have happened</span>
+    
+    <span class="c1"># on each pass of the while loop, push the first n-1 coins forward in the list,</span>
+    <span class="c1"># then sample a new coin for the nth one; for instance, HTH becomes TH? where</span>
+    <span class="c1"># &quot;?&quot; is the result of a new coin flip</span>
+    
+  <span class="nf">while</span><span class="p">(</span><span class="o">!</span><span class="nf">all</span><span class="p">(</span><span class="n">p1</span> <span class="o">==</span> <span class="n">flips</span><span class="p">)){</span>
+    <span class="n">flips</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="p">(</span><span class="n">coins</span> <span class="o">-</span> <span class="m">1</span><span class="p">)]</span> <span class="o">&lt;-</span> <span class="n">flips</span><span class="p">[</span><span class="m">2</span><span class="o">:</span><span class="n">coins</span><span class="p">]</span>
+    <span class="n">flips</span><span class="p">[</span><span class="n">coins</span><span class="p">]</span> <span class="o">&lt;-</span> <span class="nf">sample</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span> <span class="s">&quot;T&quot;</span><span class="p">),</span> <span class="m">1</span><span class="p">)</span>
+    <span class="n">num_flips</span> <span class="o">&lt;-</span> <span class="n">num_flips</span> <span class="o">+</span> <span class="m">1</span>
+  <span class="p">}</span>
+    
+  <span class="n">num_flips</span>                         <span class="c1"># output number of flips required to find sequence</span>
+<span class="p">}</span>
+
+
+<span class="c1"># The next function produces a vector of appropriate length enumerating all</span>
+<span class="c1"># possible sequences of coin flips of that length; for instance, ht_iterator(2)</span>
+<span class="c1"># will return the vector c(&quot;HH&quot;, &quot;HT&quot;, &quot;TH&quot;, &quot;TT&quot;). This works recursively by </span>
+<span class="c1"># calling ht_iterator(k-1), duplicating it, and appending each of H and T to </span>
+<span class="c1"># one of the duplicates.</span>
+
+<span class="n">ht_iterator</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">k</span><span class="p">){</span>
+  <span class="nf">if</span><span class="p">(</span><span class="n">k</span> <span class="o">==</span> <span class="m">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nf">return</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span> <span class="s">&quot;T&quot;</span><span class="p">))</span>
+  <span class="p">}</span> <span class="n">else</span> <span class="p">{</span>
+    <span class="nf">ht_iterator</span><span class="p">(</span><span class="n">k</span><span class="m">-1</span><span class="p">)</span> <span class="o">%&gt;%</span>
+      <span class="nf">rep</span><span class="p">(</span><span class="n">each</span> <span class="o">=</span> <span class="m">2</span><span class="p">)</span> <span class="o">%&gt;%</span>
+      <span class="nf">paste0</span><span class="p">(</span><span class="nf">c</span><span class="p">(</span><span class="s">&quot;H&quot;</span><span class="p">,</span> <span class="s">&quot;T&quot;</span><span class="p">))</span>
+  <span class="p">}</span> 
+<span class="p">}</span>
+
+<span class="nf">tibble</span><span class="p">(</span><span class="n">sequence</span> <span class="o">=</span> <span class="nf">ht_iterator</span><span class="p">(</span><span class="m">3</span><span class="p">))</span> <span class="o">%&gt;%</span>
+  <span class="nf">rowwise</span><span class="p">()</span> <span class="o">%&gt;%</span>
+  <span class="nf">mutate</span><span class="p">(</span><span class="n">avg_wait</span> <span class="o">=</span> <span class="nf">mean</span><span class="p">(</span><span class="nf">replicate</span><span class="p">(</span><span class="m">1e4</span><span class="p">,</span> <span class="nf">penney_wait</span><span class="p">(</span><span class="n">sequence</span><span class="p">))))</span> <span class="o">%&gt;%</span>
+  <span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">sequence</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">avg_wait</span><span class="p">))</span> <span class="o">+</span>
+    <span class="nf">geom_bar</span><span class="p">(</span><span class="n">stat</span> <span class="o">=</span> <span class="s">&quot;identity&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">labs</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s">&quot;Monte Carlo simulations of wait times&quot;</span><span class="p">,</span>
+         <span class="n">subtitle</span> <span class="o">=</span> <span class="s">&quot;10,000 total trials per sequence&quot;</span><span class="p">,</span>
+         <span class="n">y</span> <span class="o">=</span> <span class="s">&quot;Average wait time&quot;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">theme</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="nf">element_text</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">20</span><span class="p">))</span> <span class="o">+</span>
+    <span class="nf">coord_flip</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+wCKwAAJrDQQW8B4K7auCwCKwAAJrDQQW8B4K7atiy4E1vuwqEFiBt/z28PLMUm9uwM+83mCY
+4V4fJTawSi9Ha+rNDfgZhf0NFVvewwo/4ZAQEBTaVwWBRWABBNYaCCzgPRTaVwWBRWABBNYa
+CCzgPRTaVwWBRWABBNYaCCzgPRTaVwWBRWABBNYaCCzgPRTaV8V2A+snXq409eYG/IxC+6og
+sAgsgMBaA4EFvIdC+6ogsAgsgMBaA4EFvIdC+6ogsAgsgMBaA4EFvIdC+6ogsAgsgMBaA4EF
+vIdC+6ogsAgsgMBaA4EFvIdC+6ogsAgsgMBaA4EFvIdC+6ogsAgsgMBaA4EFvIdC+6ogsAgs
+gMBaA4EFvIdC+6ogsAgsgMBaA4EFvIdC+6ogsFYJLNOrUaJcTZSryHS1BJYSytVEuYpMV0tg
+KaFcTZSryHS1BJYSytVEuYpMV0tgKaFcTZSryHS1BJYSytVEuYpMV5tPYKX+UBp5UWiWaKYj
+QDBdLYGFbVJolmimI0AwXS2BhW1SaJZopiNAMF0tgYVtUmiWaKYjQDBdLYGFbVJolmimI0Aw
+XS2BhW1SaJZopiNAMF0tgYVtUmiWaKYjQDBdLYGFbVJolmimI0AwXS2BhW1SaJZopiNAMF0t
+gYVtUmiWaKYjQDBdLYGFbVJolmimI0AwXS2BhW1SaJZopiNAMF0tgYVtUmiWaKYjQDBdLYGF
+bVJolmimI0AwXS2BhW1SaJZopiNAMF0tgYVtUmiWaKYjQDBdLYGFbVJolmimI0AwXS2BhW1S
+aJZopiNAMF0tgYVtUmiWaKYjQDBdLYGFbVJolmimI0AwXS2BhW1SaJZopiNAMF3tjwKrKMQT
+OagYILDwHgrNEs10BAimqyWwsE0KzRLNdAQIpqvVD6zAWwksqFNolmimI0AwXS2BhW1SaJZo
+piNAMF0tgYVtUmiWaKYjQDBdLYGFbVJolmimI0AwXS2BhW1SaJZopiNAMF0tgYVtUmiWaKYj
+QDBdLYGFbVJolmimI0AwXe0PA0tcYxUYJAPrt4eXZ5a6AZCX1zdnZMW9PkpsYJVejtbUDYC8
+KPx1j2Z6n0UwXe0PA0s84ZAQNig0SzTTESCYrpbAwjYpNEs00xEgmK6WwMI2KTRLNNMRIJiu
+lsDCNik0SzTTESCYrpbAwjYpNEs00xEgmK6WwMI2KTRLNNMRIJiulsDCNik0SzTTESCYrpbA
+wjYpNEs00xEgmK6WwMI2KTRLNNMRIJiu9keB9RMvV5q6AZAXhWaJZjoCBNPVEljYJoVmiWY6
+AgTT1RJY2CaFZolmOgIE09USWNgmhWaJZjoCBNPVEljYJoVmiWY6AgTT1RJY2CaFZolmOgIE
+09USWNgmhWaJZjoCBNPVEljYJoVmiWY6AgTT1RJY2CaFZolmOgIE09USWNgmhWaJZjoCBNPV
+EljYJoVmiWY6AgTT1RJY2CaFZolmOgIE09USWNgmhWaJZjoCBNPVEljYJoVmiWY6AgTT1RJY
+2CaFZolmOgIE09USWNgmhWaJZjoCBNPVEljYJoVmiWY6AgTT1RJY2CaFZolmOgIE09USWNgm
+hWaJZjoCBNPV5hNYplejRLmaKFeR6WoJLCWUq4lyFZmulsBSQrmaKFeR6WoJLCWUq4lyFZmu
+lsBSQrmaKFeR6WoJLCWUq4lyFZmuNp/ASv0xOYCVEFgAskFgAcgGgQUgGwQWgGwQWACyQWAB
+yAaBBSAbBBaAbBBYALJBYAHIBoEFIBsEFoBsEFgAskFgAcgGgQUgGwQWgGwQWACyQWAByAaB
+BSAbBBaAbBBYALKRIrCKQjxZNojAAn5tBBaAbBBYALJBYAHIBoEFIBsEFoBsEFgAskFgAchG
+ZoH128OLc7vfU69jACt5ufsD3IvvL4aWD6qxhwX8qtLsYRFYACKkCSzxhHNYAJ4jsABkg8AC
+kA0CC0A2CCwA2SCwAGSDwAKQDQILQDYILADZSBFYP0RgAb8qAgtANggsANkgsABkg8ACkA0C
+C0A2CCwA2SCwAGSDwAKQDQILQDYILADZILAAZIPAApANAgtANggsANkgsABkg8ACkA0CC0A2
+foXAen2MpChXE+UqMl0tgaWEcjVRriLT1RJYSihXE+UqMl0tgaWEcjVRriLT1RJYSihXE+Uq
+Ml0tgaWEcjVRriLT1RJYSihXE+UqMl0tgaWEcjVRriLT1RJYSihXE+UqMl0tgaWEcjVRriLT
+1SYLrJf9lrqATWPtamLtKnCpC3iCf3RNrF1NrF0FLnUBT/CProm1q4m1q8ClLuAJ/tE1sXY1
+sXYVuNQFAMBSLnUBALCUS10AACzlUhcAAEu51AUAwFIudQEAsJRLXcCMf/1RFMUf/0pdxib9
+VXRSl7I9/+jXKdvwylzqAqb9rWmov6UuZIv+TWCp+Ve/TtmG1+ZSFzDpH8Xvf/51/+vP34u/
+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
+TkSuQmCC" width="600" height="360" />
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Of course, I wasn't thinking through the fact that this clearly <em>isn't</em> a geometric random variable of that structure, since we don't need the sequences to fit inside <em>predetermined blocks of three</em>. In the above example, our sequence of coin flips was:</p>
+<p style="text-align: center;">THT|T<font color="red">HT</font>|<font color="red">H</font>..|</p><p>Adopting the geometric perspective would be tantamount to requiring that the sequences occur strictly between the vertical bars -- but that doesn't need to happen here.</p>
+<h1 id="The-Correct-Answer">The Correct Answer<a class="anchor-link" href="#The-Correct-Answer"> </a></h1><p>As we can see clearly from the graph, <strong>different sequences have different average wait times</strong>, and it follows that something about the non-geometricness of the process is the root cause. However, it may not be obvious at first what it is about being non-geometric would cause this discrepancy between sequences. As suggested by the graphs above, there are three tiers of expected wait times in the Penney's Game problem with three coins:</p>
+<table>
+<thead><tr>
+<th>coin</th>
+<th>avg. wait time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HHH, TTT</td>
+<td>14</td>
+</tr>
+<tr>
+<td>HTH, THT</td>
+<td>10</td>
+</tr>
+<tr>
+<td>HHT, HTT, THH, TTH</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+<h1 id="But-why?">But why?<a class="anchor-link" href="#But-why?"> </a></h1><p>The simulation clearly shows that there's a difference in wait times, but it doesn't do much to illuminate the reason for it. For that, we need to think carefully about what happens when we're chasing a sequence and we <em>don't</em> see what we are hoping for. We will illustrate this concept with some diagrams, starting with HHH.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://github.com/aaron-montgomery/blog/blob/master/images/markov_hhh.jpg?raw=true" alt="" /></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The above diagram illustrates the collection of possible things that can occur when we're trying to complete the HHH sequence. When we begin, we want to see three flips of heads in a row. Each successive flip of H moves us to the right along the diagram. But if at any point we miss and see a T, we lose all our progress and have to start over from scratch.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://github.com/aaron-montgomery/blog/blob/master/images/markov_hth.jpg?raw=true" alt="" /></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Through this perspective, we can start to see why HTH is a fundamentally friendlier sequence to chase than HHH. If we have obtained the first H in the sequence, we hope that the next throw will be a T; however, if it isn't, then it's an H instead, and we're at the same point along in the sequence. (However, if we have already seen HT, then we hope the next throw is an H, and if we encounter another T then we are right back at the starting point again.)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://github.com/aaron-montgomery/blog/blob/master/images/markov_hht.jpg?raw=true" alt="" /></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>As we examine the HHT diagram, the picture starts to clear up: <strong>the secret is in the blue backtracking arrows.</strong> Let's recap what blue arrows we've seen in the diagrams above:</p>
+<ul>
+<li><p>HHH</p>
+<ul>
+<li>one loop </li>
+<li>one backwards arrow of length one</li>
+<li>one backwards arrow of length two</li>
+</ul>
+</li>
+<li><p>HTH</p>
+<ul>
+<li>two loops</li>
+<li>one backwards arrow of length two</li>
+</ul>
+</li>
+<li><p>HHT</p>
+<ul>
+<li>two loops</li>
+<li>one backwards arrow of length one</li>
+</ul>
+</li>
+</ul>
+<p>This shows us that HHH has the most backtracking, HTH has the second most, and HHT has the least, which corresponds to their respective average wait tiems. This should make sense; the wait time will be determined not by what happens when you get the coin throws you want, but by how far your progress is set back when you <em>don't</em> get what you want.</p>
+<p>(NB: Hopefully, this argument makes it clear why some wait times are longer than others; however, it falls well short of establishing that those wait times are exactly 8, 10, and 14. I'll save those details for another post.)</p>
+<h1 id="To-be-continued....">To be continued....<a class="anchor-link" href="#To-be-continued...."> </a></h1><p>In the <a href="https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/penneys-game/counterintuitive/2022/08/05/penneys-game-1.html">first post</a> on Penney's Game, we saw that different sequences have various advantages over each other in a head-to-head matchup; now, we've also seen that different sequences have different expected wait times in isolation. To me, these two things are plenty strange -- and yet, somehow, things will get even more bizarre when we put a fourth coin in the mix.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="aaron-montgomery/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/probability/simulation/monte-carlo/penneys-game/counterintuitive/2022/08/10/penneys-game-2.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Aaron Montgomery&#39;s blog</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
