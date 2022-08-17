@@ -618,7 +618,7 @@ TkSuQmCC" width="600" height="360" />
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Through this perspective, we can start to see why HTH is a fundamentally friendlier sequence to chase than HHH. If we have obtained the first H in the sequence, we hope that the next throw will be a T; however, if it isn't, then it's an H instead, and we're at the same point along in the sequence. (However, if we have already seen HT, then we hope the next throw is an H, and if we encounter another T then we are right back at the starting point again.)</p>
+<p>Through this perspective, we can start to see why HTH is a fundamentally friendlier sequence to chase than HHH. If we have obtained the first H in the sequence, we hope that the next throw will be a T; however, if it isn't, then it's an H instead. This means that when we're at step 1 of 3 in completing the sequence, missing the coin we hope to see just means we remain at step 1 instead of resetting all the way back to the start.</p>
 
 </div>
 </div>
@@ -632,31 +632,31 @@ TkSuQmCC" width="600" height="360" />
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>As we examine the HHT diagram, the picture starts to clear up: <strong>the secret is in the blue backtracking arrows.</strong> Let's recap what blue arrows we've seen in the diagrams above:</p>
+<p>The HHT case is even more favorable; here, once we see two consecutive H's, there's no way to lose our progress; we're just waiting for the eventual trailing T.</p>
+<p>Examining these three cases carefully gives a useful perspective: <strong>the secret is in the blue backtracking arrows.</strong> Let's recap what blue arrows we've seen in the diagrams above:</p>
 <ul>
 <li><p>HHH</p>
 <ul>
 <li>one loop </li>
-<li>one backwards arrow of length one</li>
-<li>one backwards arrow of length two</li>
+<li>two blue arrows (one long, one short)</li>
 </ul>
 </li>
 <li><p>HTH</p>
 <ul>
 <li>two loops</li>
-<li>one backwards arrow of length two</li>
+<li>one long blue arrow</li>
 </ul>
 </li>
 <li><p>HHT</p>
 <ul>
 <li>two loops</li>
-<li>one backwards arrow of length one</li>
+<li>one short blue arrow</li>
 </ul>
 </li>
 </ul>
-<p>This shows us that HHH has the most backtracking, HTH has the second most, and HHT has the least, which corresponds to their respective average wait tiems. This should make sense; the wait time will be determined not by what happens when you get the coin throws you want, but by how far your progress is set back when you <em>don't</em> get what you want.</p>
-<p>(NB: Hopefully, this argument makes it clear why some wait times are longer than others; however, it falls well short of establishing that those wait times are exactly 8, 10, and 14. I'll save those details for another post.)</p>
-<h1 id="To-be-continued....">To be continued....<a class="anchor-link" href="#To-be-continued...."> </a></h1><p>In the <a href="https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/penneys-game/counterintuitive/2022/08/05/penneys-game-1.html">first post</a> on Penney's Game, we saw that different sequences have various advantages over each other in a head-to-head matchup; now, we've also seen that different sequences have different expected wait times in isolation. To me, these two things are plenty strange -- and yet, somehow, things will get even more bizarre when we put a fourth coin in the mix.</p>
+<p>This shows us that HHH has the most backtracking, HTH has the second most, and HHT has the least, which corresponds to their respective average wait times. This should make sense; the wait time will be determined not by what happens when you get the coin throws you want, but by how far your progress is set back when you <em>don't</em> get what you want.</p>
+<p>(NB: Hopefully, this argument makes it clear why some wait times are longer than others; however, it falls short of establishing that those wait times are exactly 8, 10, and 14. I'll save those details for another post.)</p>
+<h1 id="To-be-continued....">To be continued....<a class="anchor-link" href="#To-be-continued...."> </a></h1><p>In the <a href="https://aaron-montgomery.github.io/blog/probability/simulation/monte-carlo/penneys-game/counterintuitive/2022/08/05/penneys-game-1.html">first post</a> on Penney's Game, we saw that different sequences have various advantages over each other in a head-to-head matchup; now, we've also seen that different sequences have different expected wait times in isolation. To me, these two things are already plenty strange -- and yet, somehow, things will get even more bizarre when we put a fourth coin in the mix.</p>
 
 </div>
 </div>
