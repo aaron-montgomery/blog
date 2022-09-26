@@ -2171,9 +2171,9 @@ khXCehUFCANhwfsZ2wVgJQgL3oPS+fri2ziwBGHBe9i1E7xUd8Snk9AArABhwXuopju+P5+P
 
 <span class="n">four_coin_results</span> <span class="o">&lt;-</span>
   <span class="n">four_coin_results</span> <span class="o">%&gt;%</span>
-  <span class="nf">rowwise</span><span class="p">()</span> <span class="o">%&gt;%</span>
-  <span class="nf">mutate</span><span class="p">(</span><span class="n">p1_wins</span> <span class="o">=</span> <span class="nf">penney_wrapper</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">))</span> <span class="o">%&gt;%</span>
-  <span class="nf">mutate</span><span class="p">(</span><span class="n">p1_wins</span> <span class="o">=</span> <span class="nf">round</span><span class="p">(</span><span class="n">p1_wins</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
+    <span class="nf">rowwise</span><span class="p">()</span> <span class="o">%&gt;%</span>
+    <span class="nf">mutate</span><span class="p">(</span><span class="n">p1_wins</span> <span class="o">=</span> <span class="nf">penney_wrapper</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">))</span> <span class="o">%&gt;%</span>
+    <span class="nf">mutate</span><span class="p">(</span><span class="n">p1_wins</span> <span class="o">=</span> <span class="nf">round</span><span class="p">(</span><span class="n">p1_wins</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
 
 <span class="n">four_coin_results</span> <span class="o">%&gt;%</span>
   <span class="nf">ggplot</span><span class="p">(</span><span class="nf">aes</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">p1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">p2</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="n">p1_wins</span><span class="p">))</span> <span class="o">+</span>
