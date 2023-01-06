@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Teaching Data 101 with DataQuest | AMM</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Teaching Data 101 with DataQuest" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Lessons from the first offering of the class" />
+<meta property="og:description" content="Lessons from the first offering of the class" />
+<link rel="canonical" href="https://aaron-montgomery.github.io/blog/dataquest/teaching/data-101/2023/01/06/dsa-101-diary-1.html" />
+<meta property="og:url" content="https://aaron-montgomery.github.io/blog/dataquest/teaching/data-101/2023/01/06/dsa-101-diary-1.html" />
+<meta property="og:site_name" content="AMM" />
+<meta property="og:image" content="https://aaron-montgomery.github.io/blog/images/dataquest.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-01-06T00:00:00-06:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://aaron-montgomery.github.io/blog/images/dataquest.png" />
+<meta property="twitter:title" content="Teaching Data 101 with DataQuest" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2023-01-06T00:00:00-06:00","datePublished":"2023-01-06T00:00:00-06:00","description":"Lessons from the first offering of the class","headline":"Teaching Data 101 with DataQuest","image":"https://aaron-montgomery.github.io/blog/images/dataquest.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://aaron-montgomery.github.io/blog/dataquest/teaching/data-101/2023/01/06/dsa-101-diary-1.html"},"url":"https://aaron-montgomery.github.io/blog/dataquest/teaching/data-101/2023/01/06/dsa-101-diary-1.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://aaron-montgomery.github.io/blog/feed.xml" title="AMM" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.css" integrity="sha512-h7nl+xz8wgDlNM4NqKEM4F1NkIRS17M9+uJwIGwuo8vGqIl4BhuCKdxjWEINm+xyrUjNCnK5dCrhM0sj+wTIXw==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/katex.min.js" integrity="sha512-/CMIhXiDA3m2c9kzRyd97MTb3MC6OVnx4TElQ7fkkoRghwDf6gi41gaT1PwF270W6+J60uTmwgeRpNpJdRV6sg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.12.0/contrib/auto-render.min.js" integrity="sha512-Do7uJAaHZm5OLrIv/yN4w0iG1dbu01kzdMNnFfu/mAqgUk6Nniv2JYHcwH+cNwjqgLcqcuBBk+JRvprLVI8azg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha512-0doc9hKxR3PYwso42RD1p5ySZpzzuDiOwMrdCEh2WdJZCjcmFKc/wEnL+z8fBQrnHoiNWbo+3fiGkOYXBdQp4A==" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">AMM</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Teaching Data 101 with DataQuest</h1><p class="page-description">Lessons from the first offering of the class</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2023-01-06T00:00:00-06:00" itemprop="datePublished">
+        Jan 6, 2023
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      8 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#dataquest">dataquest</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#teaching">teaching</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#data-101">data-101</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-justify-center">
+          <div class="px-2">
+
+    <a href="https://github.com/aaron-montgomery/blog/tree/master/_notebooks/2023-01-06-dsa-101-diary-1.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/aaron-montgomery/blog/master?filepath=_notebooks%2F2023-01-06-dsa-101-diary-1.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/aaron-montgomery/blog/blob/master/_notebooks/2023-01-06-dsa-101-diary-1.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+          <div class="px-2">
+  <a href="https://deepnote.com/launch?url=https%3A%2F%2Fgithub.com%2Faaron-montgomery%2Fblog%2Fblob%2Fmaster%2F_notebooks%2F2023-01-06-dsa-101-diary-1.ipynb" target="_blank">
+      <img class="notebook-badge-image" src="/blog/assets/badges/deepnote.svg" alt="Launch in Deepnote"/>
+  </a>
+</div>
+
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2023-01-06-dsa-101-diary-1.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Overview">Overview<a class="anchor-link" href="#Overview"> </a></h1><p>I'm taking a quick break from the usual "weird tales from probability, statistics, and data" oeuvre of this blog. For this post, I'd like to write about something else that's near and dear to my both my heart and my daily schedule: teaching an <strong>Introduction to Data Science and Analytics</strong> course.</p>
+<p>This course (DSA-101 for short) is the foundational, introductory-level course for the new <a href="https://www.bw.edu/academics/undergraduate/data-science/">Data Science</a> and <a href="https://www.bw.edu/academics/undergraduate/data-analytics/">Data Analytics</a> programs we have launched this year at <a href="https://www.bw.edu/">Baldwin Wallace University</a>. In lieu of a textbook, I decided to adopt <a href="https://www.dataquest.io/">Dataquest</a> for use in our class.</p>
+<p>Here's where I should put a disclosure -- or, rather, a lack thereof. I am not affiliated with Dataquest; I am not paid by Dataquest in any capacity, particularly including for using their platform in my class. Nobody at Dataquest has solicited this post in any fashion from me. I'm writing about this because, simply put, Dataquest is a well-made product and I believe in it.</p>
+<p>More practically, I'm writing this post with some actionable tips for anyone who would like to try using Dataquest in a structured classroom environment. This entire class was an experiment for me; some things worked well, some were total flops, and some were in between. I'm hoping that by documenting my experience here, I might be able to provide a roadmap for anyone else who would like to try this... including myself, when I teach another section of this class in the upcoming Spring semester.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="What-is-Dataquest?">What is Dataquest?<a class="anchor-link" href="#What-is-Dataquest?"> </a></h1><p>Dataquest is a collection of online courses covering data topics. Many similar products exist, but what makes Dataquest special is its blend of structured lessons and open-ended projects. Moreover, it has clearly been assembled by instructors who understand education and the crucial role of nontrivial active learning. It is challenging, but also supportive; it asks much of learners, but it provides enough scaffolding for them to get there.</p>
+<p>I am a huge fan of Dataquest, and these defining features are why:</p>
+<ol>
+<li><strong>The program doesn't take educational shortcuts.</strong> Learners write code on a blank prompt instead of filling in blanks or modifying existing code. Exercises ask students to think, not to trivially adjust things they've already seen. Descriptions are given in text and graphics, not in videos that make the learner feel good while subconsciously zoning out. Completing the lessons doesn't feel like <em>following instructions</em>; it feels more like <em>solving problems</em>.</li>
+<li><strong>Projects invite meaningful creativity.</strong> The projects interspersed throughout the curriculum are open-ended and challenging. These projects embrace the idea that there are multiple correct ways to solve problems, and that different people may arrive at different conclusions. A student from my previous semester described one of these projects as "hard, but in a good way."</li>
+<li><strong>It's fun.</strong> When I was preparing the DSA-101 course, I decided to complete the R tidyverse modules on my own first so that I deeply understood what I was asking my students to do. This was much more fun than I expected, and I learned a lot while completing it. Even though I'll still be using the R content for the DSA-101 class this semester, I've decided to learn some Python on the side, just because I can. I think most learning is intrinsically fun, and Dataquest does a wonderful job of enabling the fun to naturally occur.</li>
+</ol>
+<p>The <a href="https://www.dataquest.io/academic-program/">Dataquest Academic Program</a> provides a way for instructors to use the Dataquest platform in their classes <strong>at no charge</strong>. I kept waiting all semester to see what the catch would be, and... it just never came. We were generously granted Dataquest use for the entire semester, for free. Given that I was using it like a textbook, and functionally in place of a textbook, my students were pretty excited about this.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="images/dataquest_screenshot.png" alt="Dataquest Screenshot" /></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Using-Dataquest-in-DSA-101">Using Dataquest in DSA-101<a class="anchor-link" href="#Using-Dataquest-in-DSA-101"> </a></h1><p>Since our DSA-101 course serves as the cornerstone of our new data majors, I had some design considerations as I constructed the course. Dataquest includes robust coverage of both the R and Python programming languages; I opted to use R because my university's data programs already required multiple other Python-based courses from our Computer Science department, but did not already have any coverage of R's <code>tidyverse</code>.</p>
+<p>Students entered the course with a wide variety of backgrounds; some students were senior-level Computer Science majors looking to add some data skills, and others had no programming experience at all. Since most of the veteran coders' experience was in Python or Java, using R leveled the playing field somewhat and made it easier for all students to relate to one another as learners.</p>
+<p>The typical class experience was similar to a "flipped" class. During our class time, students worked on their own to complete Dataquest modules that extended to homework on an as-needed basis. Students also spent significant time working in groups on formative group quizzes meant to foster discussion.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="What-worked-well">What worked well<a class="anchor-link" href="#What-worked-well"> </a></h1><p>Here are the things about the course that I would do again and would recommend for any other instructors who are thinking about using the Dataquest Academic Program:</p>
+<ul>
+<li><strong>A customized content path</strong>: None of the existing career paths in Dataquest quite fit what I was hoping to do in the class, so I carefully curated a list of the modules that I asked my students to complete.</li>
+<li><strong>Staying focused on deliverables</strong>: As I chose the modules used in my class, I kept my attention on what I wanted them to be able to <em>make</em>. My first goal was for them to use <code>ggplot2</code> to construct some very basic graphs; we were able to achieve this goal in just over four weeks. Once we got there, data visualization suddenly became a tool that we could use to discuss broader data concepts. Being able to create things helped give the course a feel of relevance.</li>
+<li><strong>Balancing autonomy against a common pace</strong>: The veteran coders still had an obvious advantage in speed when picking up the R content. Allowing students to work on their own during class, and having homework naturally arise as spillover content for what they were not able to complete, mostly worked quite well to balance the different learning speeds.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="What-could-have-gone-better">What could have gone better<a class="anchor-link" href="#What-could-have-gone-better"> </a></h1><p>Here are the biggest areas where my use of Dataquest fell short of what I want to do as an instructor:</p>
+<ul>
+<li><strong>Fostering conversation and community</strong>: When students were working on Dataquest content, the room was too quiet! I encouraged them to talk to each other and work together, but mostly they wanted to work independently. We eventually settled on playing music during Dataquest sessions, which helped -- but next semester I'll also place a greater emphasis on group work outside Dataquest to get them talking and sharing ideas.</li>
+<li><strong>Gaps in course content relative to my goals</strong>: There were a few topics that I was hoping to cover in the course for which I didn't find suitable Dataquest coverage. In some cases, the content didn't exist; in others, it was too long for me to use in the 15-week course. As such, I had to develop some content on my own outside the Dataquest platform, which didn't go as well as I would have liked.</li>
+<li><strong>Built-in Dataquest projects as assessment</strong>: The Dataquest projects are very, very good; however, I did not find them to work well for the graded assessments. The biggest issue was that the availability of the solution notebooks implicitly invited students to examine solutions and deprive themselves of chances to think. This isn't a problem with the Dataquest platform, but rather with the concept of grading, which naturally twists incentives from learning to getting high scores. Next semester, I'll write new original projects to nudge students away from this behavior.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Other-tips-and-tricks">Other tips and tricks<a class="anchor-link" href="#Other-tips-and-tricks"> </a></h1><p>Some pieces of advice I would have for any instructors using the Dataquest Academic Program:</p>
+<ul>
+<li><strong>Before you ask a class to complete something, go through it yourself first.</strong> This seems like an obvious teaching tip, but it's worth reiterating here; I was tempted to skip some modules I wanted to assign to my students on basic R things that I knew well. However, completing the modules on my own first allowed me to deeply understand what my students would have seen and to predict places where they would struggle. This also put into clearer focus which modules were worth our limited class time.</li>
+<li><strong>Supplement Dataquest content with structured questions.</strong> After most lessons, I gave my class something called "zero-stakes quizzes" that were designed to give them something to work on together outside the Dataquest content. This allowed me to both reinforce the skills conveyed in Dataquest and to push them a bit further on things that weren't covered by the modules; it also got them talking to each other, which helped improve the feel of the class.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion"> </a></h1><p>I really can't say enough good things about Dataquest and my experience using it in my class. Whether you're someone looking to learn some data and programming concepts, or you're an instructor looking to provide some structured assistance for students, Dataquest is worth checking out.</p>
+<p>If you're interested, you can find free trial of Dataquest on its <a href="https://www.dataquest.io/">home page</a>.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="aaron-montgomery/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/dataquest/teaching/data-101/2023/01/06/dsa-101-diary-1.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://aaron-montgomery.github.io/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Aaron Montgomery&#39;s blog</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
