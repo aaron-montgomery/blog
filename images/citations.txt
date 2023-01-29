@@ -1,6 +1,5 @@
 These are my notes on where I found the free-use images used for the post metadata.
-I haven't figured out where or how to credit the people who created the images yet,
-but this will at least help me keep track of them.
+For blog v2.0 (coming soon), I'll have citations in the articles for these.
 
 three_doors.jpg
 https://unsplash.com/photos/AY3cdYQJ4xU
@@ -34,5 +33,8 @@ https://unsplash.com/photos/oTtgJcrs72w
 by Marcel Strauß 
 Photo by <a href="https://unsplash.com/@martzzl?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Marcel Strauß</a> on <a href="https://unsplash.com/s/photos/coins?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
 
-
+robot_reading.jpg
+https://unsplash.com/photos/zwd435-ewb4
+by Andrea De Santis
+Photo by <a href="https://unsplash.com/@santesson89?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Andrea De Santis</a> on <a href="https://unsplash.com/photos/zwd435-ewb4?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
   
